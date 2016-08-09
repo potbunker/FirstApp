@@ -5,6 +5,7 @@ using System.Data;
 using System.Drawing;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
@@ -23,28 +24,34 @@ namespace FirstApp
 
         private void ListSelectionForm_Load(object sender, EventArgs e)
         {
-            var dataList = new List<Row>
+            var t = Task<IList<Row>>.Run(() => 
             {
-                new Row
+                var dataList = new List<Row>
                 {
-                    Id = "1",
-                    Name = "Name 1",
-                    Description = "Description 1"
-                },
-                new Row
-                {
-                    Id = "1",
-                    Name = "Name 1",
-                    Description = "Description 1"
-                },
-                new Row
-                {
-                    Id = "1",
-                    Name = "Name 1",
-                    Description = "Description 1"
-                }
-            };
-            this.dataGridView1.DataSource = new BindingList<Row>(dataList);
+                    new Row
+                    {
+                        Id = "1",
+                        Name = "Name 1",
+                        Description = "Description 1"
+                    },
+                    new Row
+                    {
+                        Id = "2",
+                        Name = "Name 2",
+                        Description = "Description 2"
+                    },
+                    new Row
+                    {
+                        Id = "3",
+                        Name = "Name 3",
+                        Description = "Description 3"
+                    }
+                };
+
+                Thread.Sleep(2000);
+                return dataList;
+            });
+            this.dataGridView1.DataSource = new BindingList<Row>(t.Result);
         }
 
         private void buttonUpdate_Click(object sender, EventArgs e)
@@ -59,6 +66,18 @@ namespace FirstApp
         private void buttonCancel_Click(object sender, EventArgs e)
         {
             this.Close();
+        }
+
+        private void dataGridView1_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
+        {
+            if (e.ColumnIndex == -1)
+            {
+                var row = (sender as DataGridView).Rows[e.RowIndex];
+                var args = new UpdateEventArgs();
+                args.Name = row.Cells[1].Value as string;
+                OnUpdateStatus(this, args);
+                this.Close();
+            }
         }
     }
 
