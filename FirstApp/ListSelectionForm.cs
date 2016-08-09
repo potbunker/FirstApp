@@ -1,10 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -13,8 +9,8 @@ namespace FirstApp
 {
     public partial class ListSelectionForm : Form
     {
-        public delegate void StatusUpdateHandler(object sender, EventArgs e);
-        public event StatusUpdateHandler OnUpdateStatus;
+        public delegate void EventHandler(object sender, UpdateEventArgs e);
+        public event EventHandler<UpdateEventArgs> OnUpdateStatus;
 
         public ListSelectionForm()
         {
@@ -54,17 +50,13 @@ namespace FirstApp
             this.dataGridView1.DataSource = new BindingList<Row>(t.Result);
         }
 
-        private void buttonUpdate_Click(object sender, EventArgs e)
+        private void ProcessSelectedRow(DataGridViewRow row)
         {
-            var row = this.dataGridView1.SelectedRows[0];
-            var args = new UpdateEventArgs();
-            args.Name = row.Cells[1].Value as string;
-            OnUpdateStatus(this, args);
-            this.Close();
-        }
-
-        private void buttonCancel_Click(object sender, EventArgs e)
-        {
+            OnUpdateStatus(this, new UpdateEventArgs
+            {
+                Name = row.Cells[1].Value as string
+            }
+            );
             this.Close();
         }
 
@@ -73,11 +65,19 @@ namespace FirstApp
             if (e.ColumnIndex == -1)
             {
                 var row = (sender as DataGridView).Rows[e.RowIndex];
-                var args = new UpdateEventArgs();
-                args.Name = row.Cells[1].Value as string;
-                OnUpdateStatus(this, args);
-                this.Close();
+                ProcessSelectedRow(row);
             }
+        }
+
+        private void buttonUpdate_Click(object sender, EventArgs e)
+        {
+            var row = this.dataGridView1.SelectedRows[0];
+            ProcessSelectedRow(row);
+        }
+
+        private void buttonCancel_Click(object sender, EventArgs e)
+        {
+            this.Close();
         }
     }
 
@@ -98,7 +98,7 @@ namespace FirstApp
 
     }
 
-    class UpdateEventArgs: EventArgs
+    public class UpdateEventArgs: EventArgs
     {
         public string Name { get; set; }
     }
