@@ -50,6 +50,15 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CustomLinkLabel.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="ListSelectionForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ListSelectionForm.Designer.cs">
+      <DependentUpon>ListSelectionForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="MainView.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -58,6 +67,9 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <EmbeddedResource Include="ListSelectionForm.resx">
+      <DependentUpon>ListSelectionForm.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="MainView.resx">
       <DependentUpon>MainView.cs</DependentUpon>
     </EmbeddedResource>

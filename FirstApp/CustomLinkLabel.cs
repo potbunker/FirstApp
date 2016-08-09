@@ -1,0 +1,51 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.Windows.Forms;
+
+namespace FirstApp
+{
+    public class CustomLinkLabel: LinkLabel
+    {
+        private string _containedValue;
+
+        public CustomLinkLabel() : base()
+        {
+            this.HandleCreated += CustomLinkLabel_HandleCreated;
+            this.LinkClicked += CustomLinkLabel_LinkClicked;
+        }
+
+        private void CustomLinkLabel_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        {
+            var form = new ListSelectionForm();
+            form.OnUpdateStatus += Form_OnUpdateStatus;
+            form.ShowDialog();
+        }
+
+        private void Form_OnUpdateStatus(object sender, EventArgs e)
+        {
+            var name = (e as UpdateEventArgs).Name;
+            this._containedValue = name;
+            this.UpdateLabelText();
+        }
+
+        private void CustomLinkLabel_HandleCreated(object sender, EventArgs e)
+        {
+            this.UpdateLabelText();
+        }
+
+        private void UpdateLabelText()
+        {
+            if (_containedValue == null)
+            {
+                this.Text = "Add value";
+            }
+            else
+            {
+                this.Text = string.Format("Value is {0}", this._containedValue);
+            }
+        }
+    }
+}

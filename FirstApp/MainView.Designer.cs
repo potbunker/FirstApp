@@ -37,6 +37,7 @@ namespace FirstApp
             this.buttonGroup = new System.Windows.Forms.GroupBox();
             this.NO = new System.Windows.Forms.Button();
             this.YES = new System.Windows.Forms.Button();
+            this.linkLabel = new CustomLinkLabel();
             ((System.ComponentModel.ISupportInitialize)(this.mainSplit)).BeginInit();
             this.mainSplit.Panel1.SuspendLayout();
             this.mainSplit.Panel2.SuspendLayout();
@@ -104,6 +105,7 @@ namespace FirstApp
             // 
             // buttonGroup
             // 
+            this.buttonGroup.Controls.Add(this.linkLabel);
             this.buttonGroup.Controls.Add(this.NO);
             this.buttonGroup.Controls.Add(this.YES);
             this.buttonGroup.Dock = System.Windows.Forms.DockStyle.Fill;
@@ -132,6 +134,15 @@ namespace FirstApp
             this.YES.Text = "YES";
             this.YES.UseVisualStyleBackColor = true;
             // 
+            // linkLabel
+            // 
+            this.linkLabel.AutoSize = true;
+            this.linkLabel.Location = new System.Drawing.Point(286, 37);
+            this.linkLabel.Name = "linkLabel";
+            this.linkLabel.Size = new System.Drawing.Size(55, 13);
+            this.linkLabel.TabIndex = 2;
+            this.linkLabel.TabStop = true;
+            // 
             // MainView
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -152,6 +163,7 @@ namespace FirstApp
             ((System.ComponentModel.ISupportInitialize)(this.level1Split)).EndInit();
             this.level1Split.ResumeLayout(false);
             this.buttonGroup.ResumeLayout(false);
+            this.buttonGroup.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -165,6 +177,7 @@ namespace FirstApp
         private System.Windows.Forms.GroupBox buttonGroup;
         private System.Windows.Forms.Button NO;
         private System.Windows.Forms.Button YES;
+        private System.Windows.Forms.LinkLabel linkLabel;
     }
 }
 
