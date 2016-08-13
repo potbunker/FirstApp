@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -9,18 +10,21 @@ namespace FirstApp
 {
     public partial class ListSelectionForm : Form
     {
-        public delegate void EventHandler(object sender, UpdateEventArgs e);
         public event EventHandler<UpdateEventArgs> OnUpdateStatus;
 
-        public ListSelectionForm()
+        private Func<IList<Row>> GetObjects;
+        private Row selectedRow;
+
+        public ListSelectionForm(Row selectedRow)
         {
             InitializeComponent();
+            this.selectedRow = selectedRow;
             this.Load += ListSelectionForm_Load;
         }
 
         private void ListSelectionForm_Load(object sender, EventArgs e)
         {
-            var t = Task<IList<Row>>.Run(() => 
+            GetObjects = () =>
             {
                 var dataList = new List<Row>
                 {
@@ -44,19 +48,37 @@ namespace FirstApp
                     }
                 };
 
-                Thread.Sleep(2000);
                 return dataList;
-            });
-            this.dataGridView1.DataSource = new BindingList<Row>(t.Result);
+            };
+
+            Action<DataGridViewRow> ClearRow = r =>
+            {
+                r.Selected = false;
+            };
+            var t = Task<IList<Row>>.Run(GetObjects);
+            this.dataGridView.DataSource = new BindingList<Row>(t.Result);
+
+            try
+            {
+                var selected = dataGridView.Rows
+                    .Cast<DataGridViewRow>()
+                    .First(x => selectedRow.Id.Equals(x.Cells[0].Value));
+                dataGridView.Rows[0].Selected = false;
+                dataGridView.CurrentCell = selected.Cells[0];
+                selected.Selected = true;
+            }
+            catch (Exception exp)
+            {
+                dataGridView.Rows[0].Selected = true;
+            }
         }
 
         private void ProcessSelectedRow(DataGridViewRow row)
         {
             OnUpdateStatus(this, new UpdateEventArgs
-            {
-                Name = row.Cells[1].Value as string
-            }
-            );
+                {
+                    SelectedRow = row.DataBoundItem as Row
+                });
             this.Close();
         }
 
@@ -71,7 +93,7 @@ namespace FirstApp
 
         private void buttonUpdate_Click(object sender, EventArgs e)
         {
-            var row = this.dataGridView1.SelectedRows[0];
+            var row = this.dataGridView.SelectedRows[0];
             ProcessSelectedRow(row);
         }
 
@@ -79,9 +101,19 @@ namespace FirstApp
         {
             this.Close();
         }
+
+        private void dataGridView_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (Keys.Enter == e.KeyCode)
+            {
+                var row = this.dataGridView.SelectedRows[0];
+                ProcessSelectedRow(row);
+                e.SuppressKeyPress = true;
+            }
+        }
     }
 
-    class Row
+    public class Row
     {
         public string Id
         {
@@ -95,11 +127,15 @@ namespace FirstApp
         {
             get; set;
         }
+        public bool Primary
+        {
+            get; set;
+        }
 
     }
 
     public class UpdateEventArgs: EventArgs
     {
-        public string Name { get; set; }
+        public Row SelectedRow { get; set; }
     }
 }

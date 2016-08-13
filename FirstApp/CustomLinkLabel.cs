@@ -9,7 +9,7 @@ namespace FirstApp
 {
     public class CustomLinkLabel: LinkLabel
     {
-        private string _containedValue;
+        private Row row;
 
         public CustomLinkLabel() : base()
         {
@@ -19,15 +19,15 @@ namespace FirstApp
 
         private void CustomLinkLabel_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
-            var form = new ListSelectionForm();
+            var form = new ListSelectionForm(row);
             form.OnUpdateStatus += Form_OnUpdateStatus;
             form.ShowDialog();
         }
 
         private void Form_OnUpdateStatus(object sender, EventArgs e)
         {
-            var name = (e as UpdateEventArgs).Name;
-            this._containedValue = name;
+            var selected = (e as UpdateEventArgs).SelectedRow;
+            this.row = selected;
             this.UpdateLabelText();
         }
 
@@ -38,13 +38,13 @@ namespace FirstApp
 
         private void UpdateLabelText()
         {
-            if (_containedValue == null)
+            if (row == null)
             {
                 this.Text = "Add value";
             }
             else
             {
-                this.Text = string.Format("Value is {0}", this._containedValue);
+                this.Text = string.Format("Value is {0}", row.Name);
             }
         }
     }
