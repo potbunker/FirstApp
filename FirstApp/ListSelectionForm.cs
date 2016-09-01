@@ -1,4 +1,5 @@
-﻿using System;
+﻿using log4net;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
@@ -8,67 +9,39 @@ using System.Windows.Forms;
 
 namespace FirstApp
 {
-    public partial class ListSelectionForm : Form
+    public partial class ListSelectionForm<TRow> : Form
     {
+        ILog log = LogManager.GetLogger(typeof(ListSelectionForm<TRow>));
         public event EventHandler<UpdateEventArgs> OnUpdateStatus;
 
-        private Func<IList<Row>> GetObjects;
-        private Row selectedRow;
+        private Func<IList<TRow>> GetObjects;
+        private TRow initialRow;
 
-        public ListSelectionForm(Row selectedRow)
+        public ListSelectionForm(TRow selectedRow)
         {
             InitializeComponent();
-            this.selectedRow = selectedRow;
+            this.initialRow = selectedRow;
             this.Load += ListSelectionForm_Load;
         }
 
         private void ListSelectionForm_Load(object sender, EventArgs e)
         {
-            GetObjects = () =>
-            {
-                var dataList = new List<Row>
-                {
-                    new Row
-                    {
-                        Id = "1",
-                        Name = "Name 1",
-                        Description = "Description 1"
-                    },
-                    new Row
-                    {
-                        Id = "2",
-                        Name = "Name 2",
-                        Description = "Description 2"
-                    },
-                    new Row
-                    {
-                        Id = "3",
-                        Name = "Name 3",
-                        Description = "Description 3"
-                    }
-                };
-
-                return dataList;
-            };
-
-            Action<DataGridViewRow> ClearRow = r =>
-            {
-                r.Selected = false;
-            };
             var t = Task<IList<Row>>.Run(GetObjects);
-            this.dataGridView.DataSource = new BindingList<Row>(t.Result);
+            this.dataGridView.DataSource = new BindingList<TRow>(t.Result);
 
             try
             {
                 var selected = dataGridView.Rows
                     .Cast<DataGridViewRow>()
-                    .First(x => selectedRow.Id.Equals(x.Cells[0].Value));
+                    .First(x => x.Equals(initialRow));
                 dataGridView.Rows[0].Selected = false;
                 dataGridView.CurrentCell = selected.Cells[0];
+
                 selected.Selected = true;
             }
             catch (Exception exp)
             {
+                log.Error(exp.Message, exp);
                 dataGridView.Rows[0].Selected = true;
             }
         }
@@ -132,6 +105,15 @@ namespace FirstApp
             get; set;
         }
 
+        public override bool Equals(object obj)
+        {
+            return this.Id.Equals((obj as Row).Id);
+        }
+
+        public override int GetHashCode()
+        {
+            return base.GetHashCode();
+        }
     }
 
     public class UpdateEventArgs: EventArgs

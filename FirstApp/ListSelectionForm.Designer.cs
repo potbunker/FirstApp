@@ -1,6 +1,6 @@
 ﻿namespace FirstApp
 {
-    partial class ListSelectionForm
+    partial class ListSelectionForm<TRow>
     {
         /// <summary>
         /// Required designer variable.

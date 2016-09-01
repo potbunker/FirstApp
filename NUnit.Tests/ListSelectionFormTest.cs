@@ -10,7 +10,7 @@ namespace FirstApp
     [TestFixture]
     public class ListSelectionFormTest
     {
-        public ListSelectionForm Form
+        public ListSelectionForm<Row> Form
         {
             get; set;
         }
@@ -18,7 +18,7 @@ namespace FirstApp
         [SetUp]
         public void Setup()
         {
-            Form = new ListSelectionForm(null);
+            Form = new ListSelectionForm<Row>(null);
         }
 
         [Test]

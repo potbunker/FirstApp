@@ -19,7 +19,7 @@ namespace FirstApp
 
         private void CustomLinkLabel_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
-            var form = new ListSelectionForm(row);
+            var form = new ListSelectionForm<Row>(row);
             form.OnUpdateStatus += Form_OnUpdateStatus;
             form.ShowDialog();
         }

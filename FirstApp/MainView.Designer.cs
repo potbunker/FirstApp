@@ -35,9 +35,21 @@ namespace FirstApp
             this.level1Split = new System.Windows.Forms.SplitContainer();
             this.textBox1 = new System.Windows.Forms.TextBox();
             this.buttonGroup = new System.Windows.Forms.GroupBox();
+            this.linkLabel = new FirstApp.CustomLinkLabel();
             this.NO = new System.Windows.Forms.Button();
             this.YES = new System.Windows.Forms.Button();
-            this.linkLabel = new CustomLinkLabel();
+            this.menuItem1 = new System.Windows.Forms.MenuItem();
+            this.menuItem2 = new System.Windows.Forms.MenuItem();
+            this.customContextMenu = new FirstApp.CustomControls.CustomContextMenu();
+            this.firstItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.secondItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.thirdItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.separator = new System.Windows.Forms.ToolStripSeparator();
+            this.fourthItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.fifthItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.menuItem3 = new System.Windows.Forms.MenuItem();
+            this.menuItem4 = new System.Windows.Forms.MenuItem();
+            this.menuItem5 = new System.Windows.Forms.MenuItem();
             ((System.ComponentModel.ISupportInitialize)(this.mainSplit)).BeginInit();
             this.mainSplit.Panel1.SuspendLayout();
             this.mainSplit.Panel2.SuspendLayout();
@@ -48,6 +60,7 @@ namespace FirstApp
             this.level1Split.Panel2.SuspendLayout();
             this.level1Split.SuspendLayout();
             this.buttonGroup.SuspendLayout();
+            this.customContextMenu.SuspendLayout();
             this.SuspendLayout();
             // 
             // mainSplit
@@ -74,8 +87,10 @@ namespace FirstApp
             this.dataGrid.Dock = System.Windows.Forms.DockStyle.Fill;
             this.dataGrid.Location = new System.Drawing.Point(0, 0);
             this.dataGrid.Name = "dataGrid";
+            this.dataGrid.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.dataGrid.Size = new System.Drawing.Size(692, 189);
             this.dataGrid.TabIndex = 0;
+            this.dataGrid.MouseDown += new System.Windows.Forms.MouseEventHandler(this.dataGrid_MouseDown);
             // 
             // level1Split
             // 
@@ -116,6 +131,16 @@ namespace FirstApp
             this.buttonGroup.TabStop = false;
             this.buttonGroup.Text = "Choices";
             // 
+            // linkLabel
+            // 
+            this.linkLabel.AutoSize = true;
+            this.linkLabel.Location = new System.Drawing.Point(286, 37);
+            this.linkLabel.Name = "linkLabel";
+            this.linkLabel.Size = new System.Drawing.Size(55, 13);
+            this.linkLabel.TabIndex = 2;
+            this.linkLabel.TabStop = true;
+            this.linkLabel.Text = "Add value";
+            // 
             // NO
             // 
             this.NO.Location = new System.Drawing.Point(144, 28);
@@ -134,14 +159,77 @@ namespace FirstApp
             this.YES.Text = "YES";
             this.YES.UseVisualStyleBackColor = true;
             // 
-            // linkLabel
+            // menuItem1
             // 
-            this.linkLabel.AutoSize = true;
-            this.linkLabel.Location = new System.Drawing.Point(286, 37);
-            this.linkLabel.Name = "linkLabel";
-            this.linkLabel.Size = new System.Drawing.Size(55, 13);
-            this.linkLabel.TabIndex = 2;
-            this.linkLabel.TabStop = true;
+            this.menuItem1.Index = -1;
+            this.menuItem1.Text = "";
+            // 
+            // menuItem2
+            // 
+            this.menuItem2.Index = -1;
+            this.menuItem2.Text = "";
+            // 
+            // customContextMenu
+            // 
+            this.customContextMenu.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.firstItem,
+            this.secondItem,
+            this.thirdItem,
+            this.separator,
+            this.fourthItem,
+            this.fifthItem});
+            this.customContextMenu.Name = "customContextMenu";
+            this.customContextMenu.Size = new System.Drawing.Size(141, 120);
+            // 
+            // firstItem
+            // 
+            this.firstItem.Name = "firstItem";
+            this.firstItem.Size = new System.Drawing.Size(140, 22);
+            this.firstItem.Text = "First Item";
+            // 
+            // secondItem
+            // 
+            this.secondItem.Name = "secondItem";
+            this.secondItem.Size = new System.Drawing.Size(140, 22);
+            this.secondItem.Text = "Second Item";
+            // 
+            // thirdItem
+            // 
+            this.thirdItem.Name = "thirdItem";
+            this.thirdItem.Size = new System.Drawing.Size(140, 22);
+            this.thirdItem.Text = "Third Item";
+            // 
+            // separator
+            // 
+            this.separator.Name = "separator";
+            this.separator.Size = new System.Drawing.Size(137, 6);
+            // 
+            // fourthItem
+            // 
+            this.fourthItem.Name = "fourthItem";
+            this.fourthItem.Size = new System.Drawing.Size(140, 22);
+            this.fourthItem.Text = "Fourth Item";
+            // 
+            // fifthItem
+            // 
+            this.fifthItem.Name = "fifthItem";
+            this.fifthItem.Size = new System.Drawing.Size(140, 22);
+            this.fifthItem.Text = "Firth Item";
+            // 
+            // menuItem3
+            // 
+            this.menuItem3.Index = -1;
+            this.menuItem3.Text = "First Item";
+            // 
+            // menuItem4
+            // 
+            this.menuItem4.Index = -1;
+            this.menuItem4.Text = "Second Item";
+            // 
+            // menuItem5
+            // 
+            this.menuItem5.Index = -1;
+            this.menuItem5.Text = "Third Item";
             // 
             // MainView
             // 
@@ -164,6 +252,7 @@ namespace FirstApp
             this.level1Split.ResumeLayout(false);
             this.buttonGroup.ResumeLayout(false);
             this.buttonGroup.PerformLayout();
+            this.customContextMenu.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -177,7 +266,19 @@ namespace FirstApp
         private System.Windows.Forms.GroupBox buttonGroup;
         private System.Windows.Forms.Button NO;
         private System.Windows.Forms.Button YES;
-        private System.Windows.Forms.LinkLabel linkLabel;
+        private CustomLinkLabel linkLabel;
+        private System.Windows.Forms.MenuItem menuItem1;
+        private System.Windows.Forms.MenuItem menuItem2;
+        private CustomControls.CustomContextMenu customContextMenu;
+        private System.Windows.Forms.MenuItem menuItem3;
+        private System.Windows.Forms.MenuItem menuItem4;
+        private System.Windows.Forms.MenuItem menuItem5;
+        private System.Windows.Forms.ToolStripMenuItem firstItem;
+        private System.Windows.Forms.ToolStripMenuItem secondItem;
+        private System.Windows.Forms.ToolStripMenuItem thirdItem;
+        private System.Windows.Forms.ToolStripSeparator separator;
+        private System.Windows.Forms.ToolStripMenuItem fourthItem;
+        private System.Windows.Forms.ToolStripMenuItem fifthItem;
     }
 }
 
