@@ -14,7 +14,7 @@ namespace FirstApp
         ILog log = LogManager.GetLogger(typeof(ListSelectionForm<TRow>));
         public event EventHandler<UpdateEventArgs> OnUpdateStatus;
 
-        private Func<IList<TRow>> GetObjects;
+        private Func<IList<TRow>> GetObjects = () => new List<TRow>();
         private TRow initialRow;
 
         public ListSelectionForm(TRow selectedRow)

@@ -15,34 +15,39 @@ namespace FirstApp
         public MainView()
         {
             InitializeComponent();
-            Load += (sender, e) =>
-            {
-                var bindingSource = new BindingList<DataRow>(
-                    new List<DataRow>{
-                        new DataRow { Name = "Jaewan Kim", Title = "Dr.", Age = 52 },
-                        new DataRow { Name = "Mirim Lee", Title = "Dr.", Age = 52 },
-                        new DataRow { Name = "Wooyoung Kim", Title = "Dr.", Age = 19 },
-                    }
-                );
-                dataGrid.DataSource = bindingSource;
-            };
         }
 
-        private void dataGrid_MouseDown(object sender, MouseEventArgs e)
+        private void MainView_Load(object sender, EventArgs e)
         {
-            var gridView = sender as DataGridView;
+            var grid = (sender as MainView).dataGrid;
+            var bindingSource = new BindingList<DataRow>(
+                new List<DataRow>{
+                        new DataRow { Name = "John Smith", Title = "Mr.", Age = 34 },
+                        new DataRow { Name = "Maria Smith", Title = "Mrs.", Age = 45 },
+                        new DataRow { Name = "Tyler Smith", Title = "", Age = 19 },
+                }
+            );
+            grid.DataSource = bindingSource;
+            grid.Rows.Cast<DataGridViewRow>()
+                .ToList()
+                .ForEach(x => x.ContextMenuStrip = customContextMenu);
+        }
+
+        private void dataGrid_CellMouseDown(object sender, DataGridViewCellMouseEventArgs e)
+        {
+            if (e.RowIndex < 0 || e.ColumnIndex < 0)
+            {
+                return;
+            }
+
+            var grid = sender as DataGridView;
+
             switch (e.Button)
             {
                 case MouseButtons.Right:
-                    var hitTest = gridView.HitTest(e.X, e.Y);
-                    var selectedRow = gridView.Rows[hitTest.RowIndex];
-                    gridView.CurrentCell = selectedRow.Cells[hitTest.ColumnIndex];
-                    selectedRow.Selected = true;
-                    customContextMenu.Show(gridView, e.Location);
+                    grid.CurrentCell = grid.Rows[e.RowIndex].Cells[e.ColumnIndex];
                     break;
                 case MouseButtons.Left:
-
-                    MessageBox.Show("index is " + gridView.CurrentRow.Index);
                     break;
                 default:
                     break;

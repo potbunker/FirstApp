@@ -40,7 +40,7 @@ namespace FirstApp
             this.YES = new System.Windows.Forms.Button();
             this.menuItem1 = new System.Windows.Forms.MenuItem();
             this.menuItem2 = new System.Windows.Forms.MenuItem();
-            this.customContextMenu = new FirstApp.CustomControls.CustomContextMenu();
+            this.customContextMenu = new FirstApp.CustomControls.CustomContextMenuStrip();
             this.firstItem = new System.Windows.Forms.ToolStripMenuItem();
             this.secondItem = new System.Windows.Forms.ToolStripMenuItem();
             this.thirdItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -90,7 +90,7 @@ namespace FirstApp
             this.dataGrid.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.dataGrid.Size = new System.Drawing.Size(692, 189);
             this.dataGrid.TabIndex = 0;
-            this.dataGrid.MouseDown += new System.Windows.Forms.MouseEventHandler(this.dataGrid_MouseDown);
+            this.dataGrid.CellMouseDown += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.dataGrid_CellMouseDown);
             // 
             // level1Split
             // 
@@ -171,6 +171,7 @@ namespace FirstApp
             // 
             // customContextMenu
             // 
+            this.customContextMenu.Grid = null;
             this.customContextMenu.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.firstItem,
             this.secondItem,
@@ -240,6 +241,7 @@ namespace FirstApp
             this.Name = "MainView";
             this.Text = "First Solution";
             this.TopMost = true;
+            this.Load += new System.EventHandler(this.MainView_Load);
             this.mainSplit.Panel1.ResumeLayout(false);
             this.mainSplit.Panel2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.mainSplit)).EndInit();
@@ -269,7 +271,7 @@ namespace FirstApp
         private CustomLinkLabel linkLabel;
         private System.Windows.Forms.MenuItem menuItem1;
         private System.Windows.Forms.MenuItem menuItem2;
-        private CustomControls.CustomContextMenu customContextMenu;
+        private CustomControls.CustomContextMenuStrip customContextMenu;
         private System.Windows.Forms.MenuItem menuItem3;
         private System.Windows.Forms.MenuItem menuItem4;
         private System.Windows.Forms.MenuItem menuItem5;
