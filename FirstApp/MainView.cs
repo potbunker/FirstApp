@@ -1,4 +1,5 @@
-﻿using System;
+﻿using FirstApp.CustomControls;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -52,6 +53,36 @@ namespace FirstApp
                 default:
                     break;
             }
+        }
+
+        private void customContextMenu_Layout(object sender, LayoutEventArgs e)
+        {
+            (sender as ContextMenuStrip).Items.OfType<CustomToolStripMenuItem>()
+                .ToList()
+                .ForEach(x =>
+                {
+                    switch (x.Name)
+                    {
+                        case "firstItem":
+                            x.Enabler = grid => grid.CurrentRow.Index % 3 == 0;
+                            break;
+                        case "secondItem":
+                            x.Enabler = grid => grid.CurrentRow.Index % 3 == 1;
+                            break;
+                        case "thirdItem":
+                            x.Enabler = grid => grid.CurrentRow.Index % 3 == 2;
+                            break;
+                        case "fourthItem":
+                            x.Enabler = grid => grid.CurrentRow.Index % 2 == 0;
+                            break;
+                        case "fifthItem":
+                            x.Enabler = grid => grid.CurrentRow.Index % 2 == 1;
+                            break;
+                        default:
+                            break;
+
+                    }
+                }); 
         }
     }
 }

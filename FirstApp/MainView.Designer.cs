@@ -35,21 +35,21 @@ namespace FirstApp
             this.level1Split = new System.Windows.Forms.SplitContainer();
             this.textBox1 = new System.Windows.Forms.TextBox();
             this.buttonGroup = new System.Windows.Forms.GroupBox();
-            this.linkLabel = new FirstApp.CustomLinkLabel();
             this.NO = new System.Windows.Forms.Button();
             this.YES = new System.Windows.Forms.Button();
             this.menuItem1 = new System.Windows.Forms.MenuItem();
             this.menuItem2 = new System.Windows.Forms.MenuItem();
             this.customContextMenu = new FirstApp.CustomControls.CustomContextMenuStrip();
-            this.firstItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.secondItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.thirdItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.firstItem = new FirstApp.CustomControls.CustomToolStripMenuItem();
+            this.secondItem = new FirstApp.CustomControls.CustomToolStripMenuItem();
+            this.thirdItem = new FirstApp.CustomControls.CustomToolStripMenuItem();
             this.separator = new System.Windows.Forms.ToolStripSeparator();
-            this.fourthItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.fifthItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.fourthItem = new FirstApp.CustomControls.CustomToolStripMenuItem();
+            this.fifthItem = new FirstApp.CustomControls.CustomToolStripMenuItem();
             this.menuItem3 = new System.Windows.Forms.MenuItem();
             this.menuItem4 = new System.Windows.Forms.MenuItem();
             this.menuItem5 = new System.Windows.Forms.MenuItem();
+            this.linkLabel = new FirstApp.CustomLinkLabel();
             ((System.ComponentModel.ISupportInitialize)(this.mainSplit)).BeginInit();
             this.mainSplit.Panel1.SuspendLayout();
             this.mainSplit.Panel2.SuspendLayout();
@@ -131,16 +131,6 @@ namespace FirstApp
             this.buttonGroup.TabStop = false;
             this.buttonGroup.Text = "Choices";
             // 
-            // linkLabel
-            // 
-            this.linkLabel.AutoSize = true;
-            this.linkLabel.Location = new System.Drawing.Point(286, 37);
-            this.linkLabel.Name = "linkLabel";
-            this.linkLabel.Size = new System.Drawing.Size(55, 13);
-            this.linkLabel.TabIndex = 2;
-            this.linkLabel.TabStop = true;
-            this.linkLabel.Text = "Add value";
-            // 
             // NO
             // 
             this.NO.Location = new System.Drawing.Point(144, 28);
@@ -171,7 +161,6 @@ namespace FirstApp
             // 
             // customContextMenu
             // 
-            this.customContextMenu.Grid = null;
             this.customContextMenu.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.firstItem,
             this.secondItem,
@@ -181,21 +170,25 @@ namespace FirstApp
             this.fifthItem});
             this.customContextMenu.Name = "customContextMenu";
             this.customContextMenu.Size = new System.Drawing.Size(141, 120);
+            this.customContextMenu.Layout += new System.Windows.Forms.LayoutEventHandler(this.customContextMenu_Layout);
             // 
             // firstItem
             // 
+            this.firstItem.Enabler = null;
             this.firstItem.Name = "firstItem";
             this.firstItem.Size = new System.Drawing.Size(140, 22);
             this.firstItem.Text = "First Item";
             // 
             // secondItem
             // 
+            this.secondItem.Enabler = null;
             this.secondItem.Name = "secondItem";
             this.secondItem.Size = new System.Drawing.Size(140, 22);
             this.secondItem.Text = "Second Item";
             // 
             // thirdItem
             // 
+            this.thirdItem.Enabler = null;
             this.thirdItem.Name = "thirdItem";
             this.thirdItem.Size = new System.Drawing.Size(140, 22);
             this.thirdItem.Text = "Third Item";
@@ -207,12 +200,14 @@ namespace FirstApp
             // 
             // fourthItem
             // 
+            this.fourthItem.Enabler = null;
             this.fourthItem.Name = "fourthItem";
             this.fourthItem.Size = new System.Drawing.Size(140, 22);
             this.fourthItem.Text = "Fourth Item";
             // 
             // fifthItem
             // 
+            this.fifthItem.Enabler = null;
             this.fifthItem.Name = "fifthItem";
             this.fifthItem.Size = new System.Drawing.Size(140, 22);
             this.fifthItem.Text = "Firth Item";
@@ -231,6 +226,16 @@ namespace FirstApp
             // 
             this.menuItem5.Index = -1;
             this.menuItem5.Text = "Third Item";
+            // 
+            // linkLabel
+            // 
+            this.linkLabel.AutoSize = true;
+            this.linkLabel.Location = new System.Drawing.Point(286, 37);
+            this.linkLabel.Name = "linkLabel";
+            this.linkLabel.Size = new System.Drawing.Size(55, 13);
+            this.linkLabel.TabIndex = 2;
+            this.linkLabel.TabStop = true;
+            this.linkLabel.Text = "Add value";
             // 
             // MainView
             // 
@@ -275,12 +280,12 @@ namespace FirstApp
         private System.Windows.Forms.MenuItem menuItem3;
         private System.Windows.Forms.MenuItem menuItem4;
         private System.Windows.Forms.MenuItem menuItem5;
-        private System.Windows.Forms.ToolStripMenuItem firstItem;
-        private System.Windows.Forms.ToolStripMenuItem secondItem;
-        private System.Windows.Forms.ToolStripMenuItem thirdItem;
         private System.Windows.Forms.ToolStripSeparator separator;
-        private System.Windows.Forms.ToolStripMenuItem fourthItem;
-        private System.Windows.Forms.ToolStripMenuItem fifthItem;
+        private CustomControls.CustomToolStripMenuItem firstItem;
+        private CustomControls.CustomToolStripMenuItem secondItem;
+        private CustomControls.CustomToolStripMenuItem thirdItem;
+        private CustomControls.CustomToolStripMenuItem fourthItem;
+        private CustomControls.CustomToolStripMenuItem fifthItem;
     }
 }
 

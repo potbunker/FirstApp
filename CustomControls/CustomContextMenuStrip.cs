@@ -9,15 +9,26 @@ namespace FirstApp.CustomControls
 {
     public class CustomContextMenuStrip: ContextMenuStrip
     {
-        public DataGridView Grid { get; set; }
         public CustomContextMenuStrip() : base()
         {
+            Opening += (sender, e) =>
+            {
+                var grid = (sender as ContextMenuStrip).SourceControl as DataGridView;
+                Items.OfType<CustomToolStripMenuItem>()
+                .ToList()
+                .ForEach(item => item.Enabled = item.Enabler(grid));
+            };
 
         }
     }
 
     public class CustomToolStripMenuItem: ToolStripMenuItem
     {
+        public Func<DataGridView, bool> Enabler { get; set; }
+
+        public CustomToolStripMenuItem() : base ()
+        {
+        }
 
     }
 }
